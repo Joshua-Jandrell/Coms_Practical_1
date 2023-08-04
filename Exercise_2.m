@@ -36,7 +36,7 @@ u_t = DSBSC_AM(m_t,f_c,t);
 figure()
 plot(t,u_t);
 
-U_f = fspect(u_t)*size(t,2);
+U_f = fspect(u_t);
 
 figure
 plot(f,abs(U_f));
