@@ -20,16 +20,19 @@ M_f = X_f.*H_f;
 m_t = ifspect(M_f);
 
 
-%% Part A
+%% Part a
 
+% Amplitude spectrum
+figure
 plot(f,abs(M_f))
 xlim([-10,10])
 
+% Phase spectrum
 figure
-plot(f,angle(M_f),'-o');
+plot(f,angle(M_f));
 xlim([-10,10])
 
-%% Part B
+%% Part b
 
 u_t = DSBSC_AM(m_t,f_c,t);
 
@@ -40,6 +43,10 @@ U_f = fspect(u_t);
 
 figure
 plot(f,abs(U_f));
+xlim([f_c-4,f_c+4]);
+
+figure
+plot(f,real(U_f));
 xlim([f_c-4,f_c+4]);
 end
 

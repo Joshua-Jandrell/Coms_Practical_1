@@ -15,7 +15,7 @@ m_t = 4*cos(100*pi*t)+3*sin(200*pi*t)+3*sin(300*pi*t);
 figure
 plot(t,m_t);
 title("Time Domain Waveform of Message Signal, m(t)");
-xlabel("t (s)");
+xlabel("time (s)");
 
 % frequency domain
 M_f = fspect(m_t);
@@ -30,6 +30,7 @@ ylim([-2.1,2.1]);
 ytickformat('%gj');
 ylabel("Imaginary")
 xlim([-200,200]);
+xlabel("frequency (Hz)");
 title("Frequency spectrum of message signal, M(f)");
 
 %% Part a
@@ -42,63 +43,38 @@ DSBFC_f = fspect(dsbfc_t);          % Convert to frequency domain
 figure
 plot(t*1e3,dsbfc_t);
 title("Time Domain Plot of DSB-FC Modulated Signal")
-xlabel("t (ms)");
+xlabel("time (ms)");
 
 % Show only first 25 µs so that carrier is clearly visisble
 figure
 plot(t*1e6,dsbfc_t);
 xlim([0,25*1e6/f_c]);
 %%title("Time Domain Plot of DSB-FC Modulated Signal - First 25 µs")
-xlabel("t (µs)");
+xlabel("time (µs)");
 
 % Frequecy domain plot
-figure
-tiled = tiledlayout(1,2,'TileSpacing','compact');  % Create tiled chart
-xlabel("Frequecy (MHz)")
-bgAx = axes(tiled,'XTick',[],'YTick',[],'Box','off');
-plotScale = 1e-6;
-ylims = [-0.1,0.55];
-xlimit = 200*plotScale;
-bgAx.Layout.TileSpan = [1 2];
-% negative range
-ax1 = axes(tiled);
-yyaxis(ax1,'left');
-stem(ax1,f*plotScale,real(DSBFC_f),'.');
-ylim(ylims);
-yyaxis(ax1,'right');
-stem(ax1,f*plotScale,imag(DSBFC_f),'.');
-ylim(ylims);
-xline(ax1,-f_c+400,':');
-ax1.YAxis(2).Visible = "off";
-ax1.Box = 'off';
-xlim(ax1,[-f_c*plotScale-xlimit,-f_c*plotScale+xlimit]);
-xline(ax1,-f_c*plotScale+xlimit-1*plotScale,':');
-% posative range
-ax2 = axes(tiled);
-ax2.Layout.Tile = 2;    % Move axes to second tile in layout
-yyaxis(ax2,'left');
-stem(ax2,f*plotScale,real(DSBFC_f),'.');
-ylim(ylims);
-yyaxis(ax2,'right');
-stem(ax2,f*plotScale,imag(DSBFC_f),'.');
-ylim(ylims);
-ytickformat('%gj');
-ax2.Box = 'off';
-ax2.YAxis(1).Visible = 'off';
-xlim(ax2,[f_c*plotScale-xlimit,f_c*plotScale+xlimit]);
-xline(ax2,f_c*plotScale-xlimit+1*plotScale,':');
-linkaxes([ax1 ax2], 'y');   % Link both y axes
+doublefplot(DSBFC_f,f,[f_c-200,f_c+200],[-0.1,0.55],"gg");
 
 
 % Plot envelop
 env_t = envelope(dsbfc_t);    % Find envelope
 ENV_f = fspect(env_t);
-
+% Time domain plot
 figure
-plot(t,env);
+plot(t*1e-3,env_t);
+xlabel("time (ms)");
+% Frequency domain plot
 figure
-stem(f,abs(ENV_f))
-xlim([-300 300])
+yyaxis left
+stem(f,real(ENV_f),'.');
+ylim([-2.1,2.1]);
+yyaxis right
+stem(f,imag(ENV_f),'.');
+ylim([-1.5,1.5]);
+ytickformat('%gj');
+xlim([-200,200]);
+xlabel("frequency (Hz)");
+title("Frequency Spectrum of Envelope");
 
 %% Part b
 ssbsc_t = SSBSC_AM_LSB(m_t,f_c,t);
@@ -106,43 +82,9 @@ SSBSC_f = fspect(ssbsc_t);
  % Time domain plot
 figure
 plot(t,ssbsc_t);
+xlabel("time (s)");
 % Frequecy domain plot
-figure
-tiled = tiledlayout(1,2,'TileSpacing','compact');  % Create tiled chart
-xlabel("Frequecy (MHz)")
-bgAx = axes(tiled,'XTick',[],'YTick',[],'Box','off');
-plotScale = 1e-6;
-ylims = [-0.1,0.55];
-xlimit = 200*plotScale;
-bgAx.Layout.TileSpan = [1 2];
-% negative range
-ax1 = axes(tiled);
-yyaxis(ax1,'left');
-stem(ax1,f*plotScale,real(DSBFC_f),'.');
-ylim(ylims);
-yyaxis(ax1,'right');
-stem(ax1,f*plotScale,imag(DSBFC_f),'.');
-ylim(ylims);
-xline(ax1,-f_c+400,':');
-ax1.YAxis(2).Visible = "off";
-ax1.Box = 'off';
-xlim(ax1,[-f_c*plotScale-xlimit,-f_c*plotScale+xlimit]);
-xline(ax1,-f_c*plotScale+xlimit-1*plotScale,':');
-% posative range
-ax2 = axes(tiled);
-ax2.Layout.Tile = 2;    % Move axes to second tile in layout
-yyaxis(ax2,'left');
-stem(ax2,f*plotScale,real(DSBFC_f),'.');
-ylim(ylims);
-yyaxis(ax2,'right');
-stem(ax2,f*plotScale,imag(DSBFC_f),'.');
-ylim(ylims);
-ytickformat('%gj');
-ax2.Box = 'off';
-ax2.YAxis(1).Visible = 'off';
-xlim(ax2,[f_c*plotScale-xlimit,f_c*plotScale+xlimit]);
-xline(ax2,f_c*plotScale-xlimit+1*plotScale,':');
-linkaxes([ax1 ax2], 'y');   % Link both y axes
+doublefplot(SSBSC_f,f,[f_c-200,f_c+200],[-2.1,2.1],"bb");
 
 
 end
