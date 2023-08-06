@@ -1,6 +1,6 @@
 function normalized = NormalizeSignal(signal)
-%NORMALIZESIGNAL Summary of this function goes here
-%   Detailed explanation goes here
+%NORMALIZESIGNAL Normalise the input signal so that its amplitude
+%(maximum value) is 1
 
 % Find maximum value
 max_val = max(abs(signal));

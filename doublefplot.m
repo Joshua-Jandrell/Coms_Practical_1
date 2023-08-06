@@ -1,12 +1,15 @@
 function fig = doublefplot(X_f,f,xlims,ylims,figTitle)
-%DOUBLEFPLOT Summary of this function goes here
-%   Detailed explanation goes here
+%DOUBLEFPLOT Plot real and imaginary components of a double-sided frequency
+%spectrum, |X_f| in frequency domain |f|, showing positive and negative
+% frequencies defined by the (positive) xlims.
+%   xlims and ylims are both arrays of min and max values.
+
 
 % Scale frequecy for MHz range 
 f = f/1e6;
 xlims = xlims/1e6;
 
-% Frequecy domain plot
+% Frequency domain plot
 fig = figure;
 tiled = tiledlayout(1,2,'TileSpacing','compact');  % Create tiled chart
 bgAx = axes(tiled,'XTick',[],'YTick',[],'Box','off');

@@ -1,7 +1,6 @@
 function env = envelope(x)
-%ENVELOPE Summary of this function goes here
-%   Detailed explanation goes here
-
+%ENVELOPE Find the time domain envelope of the given input signal using the
+%Hilbert Transform .
 env = abs(hilbert(x));
 end
 
